@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="limited" default="false" doc="If true, limits joint range [-PI, PI] on all joints." />
+  <arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface" />
+
+  <param unless="$(arg limited)" name="robot_description" command="$(find xacro)/xacro --inorder '$(find move_ur5_arm)/urdf/arm_with_gripper.urdf.xacro' transmission_hw_interface:=$(arg transmission_hw_interface)" />
+  <param if="$(arg limited)" name="robot_description" command="$(find xacro)/xacro --inorder '$(find ur_description)/urdf/ur5_joint_limited_robot.urdf.xacro' transmission_hw_interface:=$(arg transmission_hw_interface)" />
+
+  <include file="$(find ur5_moveit_config)/launch/ur5_moveit_planning_execution.launch" >
+    <arg name="sim" default="true"/>
+    <arg name="limited" default="true"/>
+    <arg name="debug" default="false"/>
+  </include>
+
+</launch>
+
+

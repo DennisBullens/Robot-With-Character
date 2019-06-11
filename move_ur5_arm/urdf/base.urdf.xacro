@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro"
+       name="ur5" >
+
+  <!-- base -->
+  <xacro:include filename="$(find move_ur5_arm)/urdf/base.urdf" />
+  <xacro:base_ur5 parent="base_link" >
+	<origin xyz="0.55 -0.9  -0.38" rpy="${1.5708} 0 ${(1.5708/2) * 3} " />
+  </xacro:base_ur5>

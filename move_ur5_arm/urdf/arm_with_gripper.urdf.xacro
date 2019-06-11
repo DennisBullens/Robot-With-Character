@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro"
+       name="ur5" >
+
+  <xacro:arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface"/> 
+
+  <!-- common stuff -->
+  <xacro:include filename="$(find ur_description)/urdf/common.gazebo.xacro" />
+
+  <!-- ur5 -->
+  <xacro:include filename="$(find move_ur5_arm)/urdf/arm3.urdf.xacro" />
+
+
+  <!-- arm -->
+  <xacro:ur5_robot prefix="" joint_limited="false" 
+    transmission_hw_interface="$(arg transmission_hw_interface)" /> 
+ 
+
+  <!-- gripper -->
+  <xacro:include filename="$(find move_ur5_arm)/urdf/schunk_egp40.urdf.xacro" />
+  <xacro:schunk_egp_40 parent="ee_link">
+	<origin xyz="0.0 0.0 0.0009" rpy="1.5708 0 1.5708" />
+  </xacro:schunk_egp_40> 
+
+  <!-- A ground plane -->
+  <include>
+    <uri>model://ground_plane</uri>
+    <pose>0 0 0 0 0 0</pose>
+  </include>
+
+  <!-- base -->
+  <xacro:include filename="$(find move_ur5_arm)/urdf/base.urdf.xacro" />
+  <xacro:base_ur5 parent="world" >
+	<origin xyz="-0.99 0.425 -0.1" rpy="${1.5708} 0 ${1.5708*0.5} " />
+  </xacro:base_ur5> 
+
+  <link name="world" />
+
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link = "base_link" />
+    <origin xyz="0.0 0.0 0.955" rpy="0.0 0.0 0.0" />
+  </joint>
+
+</robot>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="robot_ip" default="192.168.66.3"/>
+
+    <include file="$(find ur_modern_driver)/launch/ur5_bringup.launch">
+        <arg name="robot_ip" value="$(arg robot_ip)"/>
+        <arg name="limited" default="false"/>
+        <arg name="min_payload"  default="0.0"/>
+        <arg name="max_payload"  default="5.0"/>
+        <arg name="prefix" default="" />
+    </include>
+
+    <node name="Robotiq2FGripperRtuNode" pkg="robotiq_2f_gripper_control" type="Robotiq2FGripperRtuNode.py" args="/dev/ttyUSB0"/> 
+
+    <include file="$(find move_ur5_arm)/launch/real.launch">
+        <arg name="sim" value="false"/>
+        <arg name="db" default="false"/>
+        <arg name="db_path" value="$(find move_ur5_arm)/default_warehouse_mongo_db"/>
+        <arg name="debug" value="false"/>
+        <arg name="use_gui" value="false"/>
+    </include>
+
+</launch>
